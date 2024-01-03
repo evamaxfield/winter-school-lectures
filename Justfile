@@ -38,7 +38,7 @@ jupyter-clean:
 
 # build page
 jupyter-build:
-	jupyter nbconvert --to slides {{NOTEBOOKS_DIR}}*.ipynb --output-dir={{BUILD_DIR}}
+	jupyter nbconvert --to slides {{NOTEBOOKS_DIR}}*.ipynb --output-dir={{BUILD_DIR}} --execute
 
 # render pages
 jupyter-render:

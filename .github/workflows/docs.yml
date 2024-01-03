@@ -1,0 +1,46 @@
+name: Docs
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    # Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    # Set up Just
+    - name: Set up Just
+      uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Install Project Deps
+    - name: Install Dependencies
+      run: |
+        just install
+
+    # Build Project
+    - name: Build Project
+      run: |
+        just jupyter-build
+      
+    # Publish to GH Pages
+    - name: Publish to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: notebooks/_build/
