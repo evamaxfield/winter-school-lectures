@@ -19,7 +19,7 @@ clean:
 
 # install with all deps
 install:
-    pip install -r requirements.txt
+    pip install -e .[dev]
 
 # lint, format, and check all files
 lint:
