@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def rescale(input_array):
+def rescale(input_array: np.ndarray) -> np.ndarray:
     """Rescales an array from 0 to 1.
 
     Takes an array as input, and returns a corresponding array scaled
