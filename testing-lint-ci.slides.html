@@ -5,7 +5,7 @@
 <meta content="chrome=1" http-equiv="X-UA-Compatible"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<title>software-design-and-modularity slides</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script type="module">
+<title>testing-lint-ci slides</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script type="module">
   import mermaid from 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.0/mermaid.esm.min.mjs';
   mermaid.initialize({ startOnLoad: true });
 </script>
@@ -7434,267 +7434,248 @@ main {
 <main>
 <div class="reveal">
 <div class="slides"><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0bf12a2c-827d-4e19-80e7-e610a0b05102">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf039405-502b-4ab9-97ae-dcbaab80557c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Software-Design-and-Modularity">Software Design and Modularity<a class="anchor-link" href="#Software-Design-and-Modularity">¶</a></h1><p>Eva Maxfield Brown</p>
-<p>UW Information School</p>
+<h1 id="Testing,-Formatting,-Linting,-Type-Checking,-and-Continuous-Integration">Testing, Formatting, Linting, Type-Checking, and Continuous Integration<a class="anchor-link" href="#Testing,-Formatting,-Linting,-Type-Checking,-and-Continuous-Integration">¶</a></h1>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=75f068c5-0ad9-462b-adea-b5931c17683b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3ed1196c-e670-4f9c-922d-54e8c3385306">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Agenda">Agenda<a class="anchor-link" href="#Agenda">¶</a></h2><ol>
-<li>Motivation</li>
-<li>Core Ideas</li>
-<li>Basic Application</li>
-<li>Common Patterns</li>
-<li>Takeaways</li>
-</ol>
+<h2 id="Structure">Structure<a class="anchor-link" href="#Structure">¶</a></h2><p>Talk a tiny bit about each topic, but the main focus is showing how to add each of these processes to your code and how they work.</p>
+<p>In between each section I will let everyone try to add the step we just discussed to their own code. If you run into issues or are confused, let us know. We can then answer that question for the whole group.</p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef469fed-f514-4aac-b71e-7a0d6da66bbe">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0d262f59-5c9e-431a-b9d5-c301c01bfcdf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">¶</a></h2>
+<h2 id="Motivation-??">Motivation ??<a class="anchor-link" href="#Motivation-??">¶</a></h2><p>⚠️ ⚠️ ANECDOTE ⚠️ ⚠️</p>
+<p>This is somewhat 'expected knowledge' for software devs but not typically for scientists. If you understand testing and continuous integration (CI) configuration well enough, it will increase your salary offers in industry.</p>
+<hr/>
+<p>Regardless of industry or academia, CI systems can be used for tons of different tasks including whole processing pipelines (for free***)</p>
+<p><em>please don't abuse CI systems, i am trying to get a job at GitHub research and I don't want them to be angry at me</em></p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=04aa464f-494f-435e-8cad-086d21bfe169">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b4472d27-cd66-44c8-adbd-489fe7ddef57">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Computers do exactly what you program them to do.<br/><br/>If you aren’t getting the results you expect, look for a simpler model.</h3>
+<h2 id="Testing">Testing<a class="anchor-link" href="#Testing">¶</a></h2>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=edcd665d-f209-4626-83cf-bc9cd6177e9b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e895c5a7-e87e-412c-888e-a691bac7a3f3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li>Make software easier to understand by breaking it into pieces that can be understood separately</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1a89c31-47e2-4be2-a4eb-a258b5bddf3c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p>Make software easier to understand by breaking it into pieces that can be understood separately</p>
-</li>
-<li><p>Enable the ability to maintain, reuse and extend software (or bits of software)</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=99e9819c-dbf8-4b37-aff5-18274bf68c81">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p>Make software easier to understand by breaking it into pieces that can be understood separately</p>
-</li>
-<li><p>Enable the ability to maintain, reuse and extend software (or bits of software)</p>
-</li>
-<li><p>Avoid extra work from lack of forethought towards methods of engagement with software</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6eaa3564-3419-4cb6-8c86-48dcbcd0e284">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p><b>Make software easier to understand by breaking it into pieces that can be understood separately</b></p>
-<p>Make it easier to collaborate with others by making your code understandable OR make it easier for yourself when you ultimately need to revisit your code after six months, a year, or more working on a different project.</p>
-</li>
-<li><p>Enable the ability to maintain, reuse and extend software (or bits of software)</p>
-</li>
-<li><p>Avoid extra work from lack of forethought towards methods of engagement with software</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=01d75ff6-dca5-48fa-9e72-a3f42f4d85e7">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p>Make software easier to understand by breaking it into pieces that can be understood separately</p>
-</li>
-<li><p><b>Enable the ability to maintain, reuse and extend software (or bits of software)</b></p>
-<p>By breaking software into pieces that can be understood and operate independently, we hope they are not only easier to maintain, but portable from project to project. If your research continues to build off prior work, why doesn't your code?</p>
-</li>
-<li><p>Avoid extra work from lack of forethought towards methods of engagement with software</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f0356117-623b-40fe-bea3-12b46dbe7b81">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p>Make software easier to understand by breaking it into pieces that can be understood separately</p>
-</li>
-<li><p>Enable the ability to maintain, reuse and extend software (or bits of software)</p>
-</li>
-<li><p><b>Avoid extra work from lack of forethought towards methods of engagement with software</b></p>
-<p>Less work good 👍👍</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9ecc75a1-3d20-4c7e-9e05-7f70f5008c4b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h2>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f2d7727a-6823-458b-90e3-6fd5dd1042bb">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><ol>
-<li><strong>Decomposable</strong> – can be broken down into modules to reduce complexity and allow teamwork<br/><br/></li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f5ec9f5d-e5bc-4174-bfcc-7839a78b8927">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><ol>
-<li><strong>Decomposable</strong> – can be broken down into modules to reduce complexity and allow teamwork<br/><br/></li>
-<li><strong>Composable</strong> – enable code to be reused in many places<br/><br/></li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f6a1a72b-64bb-4316-985d-958b0fef0895">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><ol>
-<li><strong>Decomposable</strong> – can be broken down into modules to reduce complexity and allow teamwork<br/><br/></li>
-<li><strong>Composable</strong> – enable code to be reused in many places<br/><br/></li>
-<li><strong>Understandable</strong> – one module can be examined, reasoned about, developed, etc. in isolation<br/><br/></li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=73b61b10-bd25-456c-af8e-f95285770108">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><ol>
-<li><strong>Decomposable</strong> – can be broken down into modules to reduce complexity and allow teamwork<br/><br/></li>
-<li><strong>Composable</strong> – enable code to be reused in many places<br/><br/></li>
-<li><strong>Understandable</strong> – one module can be examined, reasoned about, developed, etc. in isolation<br/><br/></li>
-<li><strong>Continuity</strong> – a small change in the requirements should affect a small number of modules<br/><br/></li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=91dfb8c3-db0a-415d-9839-9be888959737">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><ol>
-<li><strong>Decomposable</strong> – can be broken down into modules to reduce complexity and allow teamwork<br/><br/></li>
-<li><strong>Composable</strong> – enable code to be reused in many places<br/><br/></li>
-<li><strong>Understandable</strong> – one module can be examined, reasoned about, developed, etc. in isolation<br/><br/></li>
-<li><strong>Continuity</strong> – a small change in the requirements should affect a small number of modules<br/><br/></li>
-<li><strong>Isolation</strong> – an error in one module should be as contained as possible<br/><br/></li>
-</ol>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65e0c4ea-6fd9-4134-b8e8-4ba9e9ea65c3">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><h4 id="Cohesion-%E2%80%93-internal-consistency">Cohesion – internal consistency<a class="anchor-link" href="#Cohesion-%E2%80%93-internal-consistency">¶</a></h4><p>Generally, we want to create separation of concerns</p>
-<h5 id="Methods-/-Functions">Methods / Functions<a class="anchor-link" href="#Methods-/-Functions">¶</a></h5><ul>
-<li>Compute a value, let client decide what to do with it</li>
-<li>Observe or mutate; don’t do both</li>
-<li>Hard to follow? Refactor into multiple simpler methods</li>
+<h3 id="Testing">Testing<a class="anchor-link" href="#Testing">¶</a></h3><p>Testing consist in writing small functions that test:</p>
+<ul>
+<li>whether small units of your code function as expected</li>
+<li>whether these small units integrate well together</li>
+<li>whether your code takes care of edge cases</li>
+<li>whether your code's inputs and outputs are correctly treated</li>
 </ul>
-<h5 id="Data-Containers-(abstract-data-types)">Data Containers (abstract data types)<a class="anchor-link" href="#Data-Containers-(abstract-data-types)">¶</a></h5><ul>
-<li>Provide a single abstraction, represent a single concept</li>
-<li>Redesign your class if it violates this principal</li>
+<p>Running your tests allow checking that new changes to the code base did not break anything in your code (at least what your are testing for!).</p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0adc1cef-515b-4354-8259-aae7558d332a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Testing">Testing<a class="anchor-link" href="#Testing">¶</a></h3><p><strong>As you write tests, you get to experience what it takes to use your library and this might lead you to refactor parts of your code; refactoring is an important part of a software life-cycle!</strong></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=98c12208-0ed3-4779-b060-d39c287e8d3f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Testing">Testing<a class="anchor-link" href="#Testing">¶</a></h3><p>How to write tests!</p>
+<p><a href="https://github.com/evamaxfield/winter-school-lectures/pull/2">testing-pr on repo</a></p>
+<p>Eva reminder to set local branch to: <code>just-testing</code></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=de5676bb-21b0-4c4e-a80d-8085eac07427">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Formatting">Formatting<a class="anchor-link" href="#Formatting">¶</a></h2>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=933efb98-34e0-4b99-826b-5529beb4bea0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Formatting">Formatting<a class="anchor-link" href="#Formatting">¶</a></h3><p>Formatting does two things:</p>
+<ol>
+<li>Stops all the arguments about: tabs vs spaces, new lines in the middle of operations, etc. NO MORE STUPID ARGUMENTS!</li>
+</ol>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=868c9b25-37e8-4420-8b56-55220e320a0e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Formatting">Formatting<a class="anchor-link" href="#Formatting">¶</a></h3><p>Formatting does two things:</p>
+<ol>
+<li>Stops all the arguments about: tabs vs spaces, line length, new lines in the middle of operations, etc. NO MORE STUPID ARGUMENTS!</li>
+</ol>
+<p>MORE IMPORTANTLY</p>
+<ol start="2">
+<li>Keeps a consistent style across the whole project. Whether you wrote the code or someone else, it will look the same.</li>
+</ol>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6a4a929-54c5-45da-a4cc-b94463944552">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Formatting">Formatting<a class="anchor-link" href="#Formatting">¶</a></h3><p>How to format your code:</p>
+<p><a href="https://github.com/evamaxfield/winter-school-lectures/pull/3">formatting-pr on repo</a></p>
+<p>Eva reminder to set local branch to: <code>just-formating</code></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dbb1c035-08bd-40c8-b509-2d1a127baf4c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Linting">Linting<a class="anchor-link" href="#Linting">¶</a></h2>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=62f76af1-a0b1-45d6-ac09-691a5ba1655d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Linting">Linting<a class="anchor-link" href="#Linting">¶</a></h3><p>Formatting focuses on directly changing the code to some "standard" style. Linting looks for common problems in the code, common bugs for example.</p>
+<p>A nice example of the difference is that formatting won't change the following:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">package_a</span> <span class="kn">import</span> <span class="n">foo</span>
+<span class="kn">from</span> <span class="nn">package_b</span> <span class="kn">import</span> <span class="n">bar</span>
+<span class="kn">from</span> <span class="nn">package_a</span> <span class="kn">import</span> <span class="n">foo</span><span class="p">,</span> <span class="n">baz</span>
+</pre></div>
+<p>But linting should inform you (if not automatically fix) that <code>foo</code> from <code>package_a</code> is imported twice and a nicer import block should look like:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">package_a</span> <span class="kn">import</span> <span class="n">baz</span><span class="p">,</span> <span class="n">foo</span>  <span class="c1"># alphabetical</span>
+<span class="kn">from</span> <span class="nn">package_b</span> <span class="kn">import</span> <span class="n">bar</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1b2db9b5-3ab5-4db6-9269-454cc366b082">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Linting">Linting<a class="anchor-link" href="#Linting">¶</a></h3><ul>
+<li>It will also alert you of unused variables that you may have forgot to use or accidentially left from debugging etc.<br/><br/></li>
+<li>It will remind you about function and module documentation standards.<br/><br/></li>
+<li>It will help you fix code which is doing extra bits of work (i.e. accidental double looping / possible standard library replacements).</li>
 </ul>
+<p>I won't list all of the rules it checks against but there are <a href="https://docs.astral.sh/ruff/rules/">A LOT</a>.</p>
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=89fee74f-62ee-47a0-a2cd-bb6c4f6c45c2">
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0835a9d4-1a78-44bb-8d10-5c8dc4a824ee">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Linting">Linting<a class="anchor-link" href="#Linting">¶</a></h3><p>How to lint your code:</p>
+<p><a href="https://github.com/evamaxfield/winter-school-lectures/pull/4">linting-pr on repo</a></p>
+<p>Eva reminder to set local branch to  <code>just-linting</code></p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=26c016a0-5bac-4d61-858b-d4f2d7740cf5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h2>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c11f66c5-776f-46a2-b925-16c51059e550">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>Type checking is the most thorough analysis of your code you can do before you even run it.</p>
+<p>Python added <strong>optional</strong> types in version 3.5. At first they were simply for analysis of the code prior to running to check for even more bugs and possible error cases but in the latest versions of Python, they are now being used to speed up your programs.</p>
+<p>They can be annoying to add and work with. Very annoying, because they are optional in the language so there is a lot of hacky ways they can be manipulated, but in my opinion they are entirely worth it.</p>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a258e451-df79-4263-8c1f-f9da8f201aec">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>Typing is handled by decorations in the code i.e.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c38b28ba-75ec-413d-8b43-79a805ed4e72">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7702,25 +7683,28 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Observe</span>
-<span class="k">def</span> <span class="nf">observe</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="c1"># No modifications to the dataframe</span>
-    <span class="n">updated</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">updated</span><span class="p">[</span><span class="s2">"hello"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"world"</span>
-    <span class="k">return</span> <span class="n">updated</span>
-
-<span class="c1"># Mutate</span>
-<span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="c1"># Modify the original</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">"hello"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"world"</span>
+<span class="k">def</span> <span class="nf">example_typed</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c7039907-5019-4228-bfb2-627a35fc4789">
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=51227671-9f14-4637-8cdf-f2e6e87978f8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>And they can get complicated...</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=51d09bd2-22cf-4b81-894a-f34c1e5d71dd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7728,21 +7712,28 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create empty dict for testing</span>
-<span class="n">empty</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 
-<span class="c1"># Demonstrate observe</span>
-<span class="n">new_data</span> <span class="o">=</span> <span class="n">observe</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"observed"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"original is still the same"</span><span class="p">,</span> <span class="n">empty</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"new data includes the addition"</span><span class="p">,</span> <span class="n">new_data</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">()</span>
+<span class="c1"># yay only a single value</span>
+<span class="n">var_int</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">var_float</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">var_bool</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">var_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"wow!"</span>
 
-<span class="c1"># Demonstrate mutate</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"mutated"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"original was"</span><span class="p">,</span> <span class="n">empty</span><span class="p">)</span>
-<span class="n">mutate</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"original now is"</span><span class="p">,</span> <span class="n">empty</span><span class="p">)</span>
+<span class="c1"># oh no multiple values</span>
+<span class="n">list_of_strings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">]</span>
+<span class="n">list_of_mixed</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"hello"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+
+<span class="c1"># lists don't have any constraints on size but tuples do</span>
+<span class="n">tuple_of_two_values</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"number"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">tuple_of_n_values</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="s2">"python why did you add this"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tuple_of_n_values</span><span class="p">)</span>
+
+<span class="c1"># sub-objects</span>
+<span class="n">dict_of_dicts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"eva"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"eva maxfield brown"</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">:</span> <span class="mi">28</span><span class="p">},</span>
+    <span class="s2">"bob"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bob Boberson"</span><span class="p">},</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7755,31 +7746,24 @@ main {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>observed
-original is still the same {}
-new data includes the addition {'hello': 'world'}
-
-mutated
-original was {}
-original now is {'hello': 'world'}
+<pre>('python why did you add this',)
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1d1c5b1-bc7a-42be-8908-9fa219016cef">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a92a96c0-1f03-49b9-a983-81b6b7865730">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><h4 id="Cohesion-%E2%80%93-internal-consistency">Cohesion – internal consistency<a class="anchor-link" href="#Cohesion-%E2%80%93-internal-consistency">¶</a></h4><p>Its fine to have some functions which observe and some which mutate but <strong>don't do both within a single function.</strong></p>
-<p>When you do have different functions with different modes of operation, be clear and consistent in their naming and design.</p>
+<h2 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h2><p>An example with our favourite pattern, the factory:</p>
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f6fc1189-e999-4b8f-ab93-95475ac3c89d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e32c884f-1cef-4db8-ac9b-c568f2af07d4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7787,252 +7771,205 @@ original now is {'hello': 'world'}
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># New means an entirely new object</span>
-<span class="k">def</span> <span class="nf">new_dataset_from_additions</span><span class="p">(</span>
-    <span class="n">existing_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-    <span class="n">new_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="c1"># copy existing and new</span>
-    <span class="c1"># add them together into a new object</span>
-    <span class="c1"># return new object</span>
-    <span class="k">pass</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
 
-<span class="c1"># Update means update an existing object</span>
-<span class="k">def</span> <span class="nf">update_dataset_with_additions</span><span class="p">(</span>
-    <span class="n">existing_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-    <span class="n">new_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="c1"># add new data to existing</span>
-    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Localizer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">localize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">EnglishLocalizer</span><span class="p">(</span><span class="n">Localizer</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">localize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"Hello world"</span>
+
+<span class="n">localizers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"en"</span><span class="p">:</span> <span class="n">EnglishLocalizer</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">get_localizer_not_initialized</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Localizer</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">localizers</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_localizer_initialized</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Localizer</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">localizers</span><span class="p">[</span><span class="n">lang</span><span class="p">]()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6d9a5177-8579-4523-a821-a577816b1c2e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=640eca53-2561-4f0b-bd30-574d084f48e4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Core-Ideas">Core Ideas<a class="anchor-link" href="#Core-Ideas">¶</a></h3><h4 id="Avoid-Coupling---dependency-between-components">Avoid Coupling - dependency between components<a class="anchor-link" href="#Avoid-Coupling---dependency-between-components">¶</a></h4><ul>
-<li>How do modules depend upon each other?</li>
-<li>If modules are highly coupled you must reason about them as though they are a single, larger module.</li>
-</ul>
-<p><img alt="coupling in software projects" src="https://raw.githubusercontent.com/evamaxfield/evamaxfield/main/coupling.png"/></p>
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>Some tips / don't worry too much...</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ccedaf32-469b-4b53-9249-f31c57cd3a1c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="c1"># numpy has types, pandas has types, etc.</span>
+<span class="n">var_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># list of dict of list etc etc can get hard...</span>
+<span class="c1"># instead of...</span>
+<span class="n">dict_of_dicts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"eva"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"eva maxfield brown"</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">:</span> <span class="mi">28</span><span class="p">},</span>
+    <span class="s2">"bob"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bob Boberson"</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1"># use `dataclass`</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">PersonDetails</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># easier to follow typing because sub-objects are separately defined</span>
+<span class="n">dict_of_person_details</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PersonDetails</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"eva"</span><span class="p">:</span> <span class="n">PersonDetails</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Eva Maxfield Brown"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">28</span><span class="p">),</span>
+    <span class="s2">"bob"</span><span class="p">:</span> <span class="n">PersonDetails</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Bob Boberson"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">dict_of_person_details</span><span class="p">[</span><span class="s2">"eva"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>PersonDetails(name='Eva Maxfield Brown', age=28)</pre>
+</div>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=08335ff1-e2c0-4d4b-9800-026aa9c72014">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a937b669-8688-4752-bb83-b126e0520224">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Well designed software should try to minimize the mental effort required to reason about it.<br/><br/>If there are too complex of functions, break them out to think about and develop one at a time. If there is too much coupling between functions or modules, try to reduce coupling.</h3>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ba5ae5c-b9d1-4c78-8c15-cde4ed231142">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h2>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=45e07fa1-4401-4b86-a511-32ed5226e1d6">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><p>You have <em>{some process}</em> in which data is monitored by different sensors. Data collected from sensors stored in CSV files. You want to collect all the data in a single Google Sheet for plot creation and other post-processing. Only keep data columns that correspond to headers specified in the Google sheet.</p>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4e363a5e-1a40-401c-a844-8266ee80d7fc">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><h4 id="Needs-at-First-Thought">Needs at First Thought<a class="anchor-link" href="#Needs-at-First-Thought">¶</a></h4><ul>
-<li>Read data from a CSV-file.</li>
-<li>Write data to a CSV-file.</li>
-<li>Read data from Google Sheets.</li>
-<li>Write data to Google Sheets.</li>
-<li>Append new data, ignoring duplicates.</li>
-<li>Ensure only user-specified columns are stored.</li>
-</ul>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2f2bcd19-a79c-446d-b204-c665de911aa2">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><h4 id="Needs-at-Second-Thought">Needs at Second Thought<a class="anchor-link" href="#Needs-at-Second-Thought">¶</a></h4><ul>
-<li><p>Create classes for CSV and Google Sheet operations which have similar interaction modes.</p>
-</li>
-<li><p>Create a function to append new data to existing data, ignoring duplicates.</p>
-</li>
-<li><p>Create a function to select specific columns / data fields from dataset.</p>
-</li>
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>It is hard to learn but do practice using it. It will make writing code easier the more you do it as it will check a lot of assumptions for you.</p>
+<p>Some resources to continue learning / lookup in the future:</p>
+<ul>
+<li><a href="https://docs.python.org/3.11/library/typing.html">standard library docs</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">typing cheatsheet from mypy</a></li>
 </ul>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2f64e6f2-e9c0-414f-b753-f5c7e7dc78bb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1a57320c-15de-4c87-9acb-c894c8bb4e3c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><h4 id="Planned-Work">Planned Work<a class="anchor-link" href="#Planned-Work">¶</a></h4><ul>
-<li>Define a basic generalized specification for reading and writing data for both CSV and Google Sheets.</li>
-<li>Implement both “file handling” specifications (i.e. two separate functions / classes)</li>
-<li>Write a function to remove duplicate data points.</li>
-<li>Write a function to subset / select the specific data points we want to save.</li>
-</ul>
+<h3 id="Type-Checking">Type Checking<a class="anchor-link" href="#Type-Checking">¶</a></h3><p>How to type check your code:</p>
+<p><a href="https://github.com/evamaxfield/winter-school-lectures/pull/5">type-checking-pr on repo</a></p>
+<p>Eva reminder to set local branch to <code>just-type-checking</code></p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=58de3bb9-4a7f-449a-9eeb-21fd7c8fd02e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=521654bc-1c15-45f5-8881-02526bf36f7b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><ol>
-<li><p><strong>Decomposable</strong> - split the reading and writing of files out to their own handlers in case you need to add or change storage locations or data formats later.</p>
-</li>
-<li><p><strong>Composable</strong> -- this is a toy problem but you might imagine that the same file reading and writing code can be used in other projects with minimal change.</p>
-</li>
-<li><p><strong>Understandable</strong> -- each part of the process is separate (reading separate from processing)</p>
-</li>
-<li><p><strong>Continuity</strong> -- if you need to change which data points are selected, there is a single place to update</p>
-</li>
-<li><p><strong>Isolation</strong> -- an error in Python will always tell you which function it came from, these separate functions and handlers will help debug when things go wrong.</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b5bb170f-d8b9-454b-a0a1-16d0d8f7a55d">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Basic-Application">Basic Application<a class="anchor-link" href="#Basic-Application">¶</a></h3><p>Let's step through an existing notebook and talk about how we might convert a notebook to a collection of independent functions.</p>
+<h2 id="Continuous-Integration">Continuous Integration<a class="anchor-link" href="#Continuous-Integration">¶</a></h2>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=551e3530-b3a4-4e70-a97b-1367e0ae9187">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a8692e02-0a66-4dde-aa73-55fd04212ec4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Common-Patterns">Common Patterns<a class="anchor-link" href="#Common-Patterns">¶</a></h2>
+<h3 id="Continuous-Integration">Continuous Integration<a class="anchor-link" href="#Continuous-Integration">¶</a></h3><p>Continuous Integration (CI) is meant to reduce or remove bugs entering code over time. Whether the code base is changing (new features, bug fixes, etc.) or upstream dependencies are changing (new releases).</p>
+<p>The main idea is that by checking your tests, formatting, linting, and types for each commit / PR you we know that nothing is breaking.</p>
+<p>If something does break, you know the exact commit / PR which broke something.</p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c55ce807-2ad2-46db-960e-88c53f2a01a9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ea1fd300-ecea-4649-9fbe-3a0ab87ca345">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Common-Patterns">Common Patterns<a class="anchor-link" href="#Common-Patterns">¶</a></h3><p>For the next ten minutes, with a partner, look through:</p>
-<h4 id="https://github.com/faif/python-patterns"><a href="https://github.com/faif/python-patterns">https://github.com/faif/python-patterns</a><a class="anchor-link" href="#https://github.com/faif/python-patterns">¶</a></h4><p>Think about how any of these patterns might be useful to a problem you recently encountered.</p>
-<p>A first one to look at might be the <code>factory</code> which is very useful when trying to have a standard interface to create different objects or functions using a parameter.</p>
-<p>Ex: you are processing a bunch of different image file formats and you need to find the appropriate file reader for each</p>
-<hr/>
-<p>As you are doing this, make note of patterns you find interesting or particularly useful and why. Or take note of patterns you have never seen before.</p>
+<h3 id="Continuous-Integration">Continuous Integration<a class="anchor-link" href="#Continuous-Integration">¶</a></h3><p>Further, it allows you to test on more machine setups than your own. For example, I have a MacOS laptop and a Linux desktop and I use Python 3.11 on both. But I have users who use Windows and Python 3.9.</p>
+<p>CI systems (GitHub Actions, GitLab CI/CD, Azure Pipelines, etc.) allow you to run the same suite of tests across all of these machines setups.</p>
+<p>Fortunately, once you have testing, formatting, linting, and type-checking setup locally, it is pretty easy to add CI to your repo!</p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1e2bc66-8602-4d35-beb0-f1752e5145dc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9575cfe7-f2fe-495f-9984-12581f0e4346">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Takeaways">Takeaways<a class="anchor-link" href="#Takeaways">¶</a></h2>
+<h3 id="Continuous-Integration">Continuous Integration<a class="anchor-link" href="#Continuous-Integration">¶</a></h3><p>How to add CI to your repo:</p>
+<p><a href="https://github.com/evamaxfield/winter-school-lectures/pull/6">ci-pr on repo</a></p>
+<p>Eva reminder to set local branch to <code>just-ci</code></p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dc8112ed-4710-4a37-b762-5a16ace29065">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0ba2487f-d587-4487-b1cf-10a1dd7ca576">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Three-Targets-For-Simpler-Programs">Three Targets For Simpler Programs<a class="anchor-link" href="#Three-Targets-For-Simpler-Programs">¶</a></h3><ol>
-<li><p>Make software easier to understand by breaking it into pieces that can be understood separately</p>
-</li>
-<li><p>Enable the ability to maintain, reuse and extend software (or bits of software)</p>
-</li>
-<li><p>Avoid extra work from lack of forethought towards methods of engagement with software</p>
-</li>
-</ol>
+<h2 id="Everything-At-Once">Everything At Once<a class="anchor-link" href="#Everything-At-Once">¶</a></h2>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=090f781f-3ddd-41a2-8a24-9a28423296bd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7cf26633-862d-40ed-b197-cbb6b9acf558">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Well designed software should try to minimize the mental effort required to reason about it.<br/><br/>If there are too complex of functions, break them out to think about and develop one at a time. If there is too much coupling between functions or modules, try to reduce coupling.</h3>
+<h3 id="Everything-At-Once">Everything At Once<a class="anchor-link" href="#Everything-At-Once">¶</a></h3><p>A pull request (PR) which has everything we just talked about together: <a href="https://github.com/evamaxfield/winter-school-lectures/pull/1">https://github.com/evamaxfield/winter-school-lectures/pull/1</a></p>
 </div>
 </div>
 </div>
 </div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=383dc5d7-4456-45c3-b8c8-219f9199c37b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f412af64-e690-458c-8c23-e2e355015bf5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Learn and apply coding patterns. There are many resources to look up common patterns.<br/><br/>A good way to learn them is to use the example code commonly given and change, add, or remove values and see what happens.</h3>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=911971fc-bc93-4b1f-991f-25930a76247c">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Credit">Credit<a class="anchor-link" href="#Credit">¶</a></h2><p>Much of the content of this talk comes from:</p>
-<ol>
-<li><a href="https://courses.cs.washington.edu/courses/cse331/20wi/lectures/lec01-intro.pdf">UW CSE 331 Lecture 1</a></li>
-<li><a href="https://docs.google.com/presentation/d/1eNpMYEyS2x92P2r94pWwykfHSS2KaRHxzRsRN85WFh0/edit#slide=id.p">Previous URSSI Winter School</a></li>
-<li><a href="https://intersect-training.org/Design/">Software Design for Research Software</a></li>
-</ol>
+<h2 id="Credit">Credit<a class="anchor-link" href="#Credit">¶</a></h2><p>Much of the written content came directly from <a href="https://pydev-guide.github.io/">https://pydev-guide.github.io/</a>.</p>
+<p>It is still under development but some tutorials are already available. I highly recommend starring it / checking back to it every few months.</p>
 </div>
 </div>
 </div>
