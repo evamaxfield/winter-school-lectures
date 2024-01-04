@@ -11,6 +11,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+test = [
+    "pytest>=7,<8",
+]
 dev = [
     "ipython",
     "jupyterlab",
