@@ -18,3 +18,6 @@ dev = [
     "ipython",
     "jupyterlab",
 ]
+lint = [
+    "pre-commit>=2.20.0",
+]
