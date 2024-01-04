@@ -1,4 +1,0 @@
-pytest
-jupyterlab
-pandas
-numpy
