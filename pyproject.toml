@@ -57,3 +57,9 @@ extend-ignore = [
     "D416", # Section name should end with a colon
     "N806", # Variable in function should be lowercase
 ]
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+show_error_codes = true
