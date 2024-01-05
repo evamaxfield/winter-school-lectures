@@ -7704,14 +7704,14 @@ main {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 
-<span class="c1"># Observe</span>
+
 <span class="k">def</span> <span class="nf">observe</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="c1"># No modifications to the dataframe</span>
     <span class="n">updated</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">updated</span><span class="p">[</span><span class="s2">"hello"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"world"</span>
     <span class="k">return</span> <span class="n">updated</span>
 
-<span class="c1"># Mutate</span>
+
 <span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># Modify the original</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">"hello"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"world"</span>
@@ -7729,7 +7729,7 @@ main {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create empty dict for testing</span>
-<span class="n">empty</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">empty</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"eva"</span><span class="p">}</span>
 
 <span class="c1"># Demonstrate observe</span>
 <span class="n">new_data</span> <span class="o">=</span> <span class="n">observe</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
@@ -7756,12 +7756,12 @@ main {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>observed
-original is still the same {}
-new data includes the addition {'hello': 'world'}
+original is still the same {'name': 'eva'}
+new data includes the addition {'name': 'eva', 'hello': 'world'}
 
 mutated
-original was {}
-original now is {'hello': 'world'}
+original was {'name': 'eva'}
+original now is {'name': 'eva', 'hello': 'world'}
 </pre>
 </div>
 </div>
@@ -7787,17 +7787,16 @@ original now is {'hello': 'world'}
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># New means an entirely new object</span>
-<span class="k">def</span> <span class="nf">new_dataset_from_additions</span><span class="p">(</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">new_dataset_from_additions</span><span class="p">(</span>
     <span class="n">existing_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">new_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="c1"># copy existing and new</span>
     <span class="c1"># add them together into a new object</span>
     <span class="c1"># return new object</span>
-    <span class="k">pass</span>
+    <span class="k">return</span> <span class="p">{}</span>
 
-<span class="c1"># Update means update an existing object</span>
+
 <span class="k">def</span> <span class="nf">update_dataset_with_additions</span><span class="p">(</span>
     <span class="n">existing_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">new_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
