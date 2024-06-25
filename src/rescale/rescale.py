@@ -1,5 +1,4 @@
 import numpy as np
-
 def rescale(input_array):
     """Rescales an array from 0 to 1.
 
