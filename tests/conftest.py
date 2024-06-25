@@ -3,7 +3,7 @@ import pytest
 
 
 @pytest.fixture
-def preloaded_data():
+def preloaded_data() -> np.ndarray:
     """
     Demonstrate how to use fixtures in tests.
 
