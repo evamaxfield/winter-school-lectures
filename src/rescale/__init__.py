@@ -1,1 +1,1 @@
-"""Primary module for rescale package."""
+"""The primary rescale module."""
