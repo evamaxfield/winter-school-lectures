@@ -19,11 +19,11 @@ clean:
 
 # install with all deps
 install:
-    pip install -e .[dev]
+    pip install -e .[lint,test,dev]
 
-# lint, format, and check all files
-lint:
-	pre-commit run --all-files
+# test
+test:
+	pytest tests/
 
 ###############################################################################
 # Jupyter Slide Build
