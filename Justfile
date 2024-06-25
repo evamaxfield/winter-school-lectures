@@ -25,6 +25,10 @@ install:
 test:
 	pytest tests/
 
+# lint, format, and check all files
+lint:
+	pre-commit run --all-files
+
 ###############################################################################
 # Jupyter Slide Build
 
